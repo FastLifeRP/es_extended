@@ -4,6 +4,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
   local tasks   = {}
 
   local userData = {
+    id           = nil,
     accounts     = {},
     inventory    = {},
     job          = {},
@@ -158,7 +159,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
             ['@identifier'] = player.getIdentifier()
           },
           function(result)
-
+            userData.id           = result[1].id
             userData.job['name']  = result[1].job
             userData.job['grade'] = result[1].job_grade
 
@@ -236,7 +237,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
     -- Run Tasks
     Async.parallel(tasks, function(results)
 
-      local xPlayer = CreateExtendedPlayer(player, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition)
+      local xPlayer = CreateExtendedPlayer(player, userData.id, userData.accounts, userData.inventory, userData.job, userData.loadout, userData.playerName, userData.lastPosition)
 
       xPlayer.getMissingAccounts(function(missingAccounts)
 
@@ -258,6 +259,7 @@ AddEventHandler('es:playerLoaded', function(source, _player)
         TriggerEvent('esx:playerLoaded', _source)
 
         TriggerClientEvent('esx:playerLoaded', _source, {
+          id           = xPlayer.id,
           identifier   = xPlayer.identifier,
           accounts     = xPlayer.getAccounts(),
           inventory    = xPlayer.getInventory(),
@@ -572,6 +574,7 @@ ESX.RegisterServerCallback('esx:getPlayerData', function(source, cb)
   local xPlayer = ESX.GetPlayerFromId(source)
 
   cb({
+    id           = xPlayer.id,
     identifier   = xPlayer.identifier,
     accounts     = xPlayer.getAccounts(),
     inventory    = xPlayer.getInventory(),
@@ -588,6 +591,7 @@ ESX.RegisterServerCallback('esx:getOtherPlayerData', function(source, cb, target
   local xPlayer = ESX.GetPlayerFromId(target)
 
   cb({
+    id           = xPlayer.id,
     identifier   = xPlayer.identifier,
     accounts     = xPlayer.getAccounts(),
     inventory    = xPlayer.getInventory(),

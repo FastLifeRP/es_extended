@@ -1,4 +1,4 @@
-function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, lastPosition)
+function CreateExtendedPlayer(player, userId, accounts, inventory, job, loadout, name, lastPosition)
 
   local self = {}
 
@@ -12,6 +12,11 @@ function CreateExtendedPlayer(player, accounts, inventory, job, loadout, name, l
 
   self.source     = self.player.get('source')
   self.identifier = self.player.get('identifier')
+  self.id         = userId
+
+  self.getId = function()
+    return self.id
+  end
 
   self.setMoney = function(m)
     if m >= 0 then
