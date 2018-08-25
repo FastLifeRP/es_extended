@@ -1,6 +1,7 @@
 USE `essentialmode`;
 
 ALTER TABLE `users`
+	ADD `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`),
 	ADD COLUMN `name` VARCHAR(255) NULL DEFAULT '' AFTER `money`,
 	ADD COLUMN `skin` LONGTEXT NULL AFTER `name`,
 	ADD COLUMN `job` varchar(255) NULL DEFAULT 'unemployed' AFTER `skin`,
